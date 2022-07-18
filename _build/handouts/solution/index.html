@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Solution | Devmountain Foundations</title>
+
+      <link
+        href="../_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="../_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+      <script src="../_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Solution</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Solution</a><ul>
+<li><a class="reference internal" href="#party-py">party.py</a></li>
+<li><a class="reference internal" href="#tests-py">tests.py</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="solution">
+<h1>Solution</h1>
+<section class="section" id="party-py">
+<h2>party.py</h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Flask site for Balloonicorn&#39;s Party.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">flash</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">flask_debugtoolbar</span> <span class="kn">import</span> <span class="n">DebugToolbarExtension</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s2">&quot;SECRETSECRETSECRET&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">is_mel</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Is this user Mel?</span>
+
+<span class="sd">       &gt;&gt;&gt; is_mel(&quot;Judith Butler&quot;, &quot;judith@awesome.com&quot;)</span>
+<span class="sd">       False</span>
+
+<span class="sd">       &gt;&gt;&gt; is_mel(&quot;Mel Melitpolski&quot;, &quot;mel@mel.com&quot;)</span>
+<span class="sd">       True</span>
+
+<span class="sd">       &gt;&gt;&gt; is_mel(&quot;Mel&quot;, &quot;mel@ubermelon.com&quot;)</span>
+<span class="sd">       True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Mel Melitpolski&quot;</span> <span class="ow">or</span> <span class="n">email</span> <span class="o">==</span> <span class="s2">&quot;mel@ubermelon.com&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">most_and_least_common_type</span><span class="p">(</span><span class="n">treats</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Given list of treats, return most and least common treat types.</span>
+
+<span class="sd">    Return most and least common treat types in tuple of format (most, least).</span>
+
+<span class="sd">       &gt;&gt;&gt; treats = [{&#39;type&#39;: &#39;cheese&#39;}, {&#39;type&#39;:&#39;cheese&#39;}, {&#39;type&#39;: &#39;drink&#39;}]</span>
+<span class="sd">       &gt;&gt;&gt; most_and_least_common_type(treats)</span>
+<span class="sd">       (&#39;cheese&#39;, &#39;drink&#39;)</span>
+
+<span class="sd">       &gt;&gt;&gt; treats = [{&#39;type&#39;: &#39;drink&#39;}, {&#39;type&#39;: &#39;drink&#39;}]</span>
+<span class="sd">       &gt;&gt;&gt; most_and_least_common_type(treats)</span>
+<span class="sd">       (&#39;drink&#39;, &#39;drink&#39;)</span>
+
+<span class="sd">       &gt;&gt;&gt; treats = []</span>
+<span class="sd">       &gt;&gt;&gt; most_and_least_common_type(treats)</span>
+<span class="sd">       (None, None)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">types</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Count number of each type</span>
+    <span class="k">for</span> <span class="n">treat</span> <span class="ow">in</span> <span class="n">treats</span><span class="p">:</span>
+        <span class="n">types</span><span class="p">[</span><span class="n">treat</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">treat</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">most_count</span> <span class="o">=</span> <span class="n">most_type</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">least_count</span> <span class="o">=</span> <span class="n">least_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Find most, least common</span>
+    <span class="k">for</span> <span class="n">treat_type</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">most_count</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">most_count</span><span class="p">:</span>
+            <span class="n">most_count</span> <span class="o">=</span> <span class="n">count</span>
+            <span class="n">most_type</span> <span class="o">=</span> <span class="n">treat_type</span>
+
+        <span class="k">if</span> <span class="n">least_count</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">least_count</span><span class="p">:</span>
+            <span class="n">least_count</span> <span class="o">=</span> <span class="n">count</span>
+            <span class="n">least_type</span> <span class="o">=</span> <span class="n">treat_type</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">most_type</span><span class="p">,</span> <span class="n">least_type</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_treats</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return treats being brought to the party.</span>
+
+<span class="sd">    One day, I&#39;ll move this into a database! -- Balloonicorn</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dessert&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Chocolate mousse&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;who&#39;</span><span class="p">:</span> <span class="s1">&#39;Leslie&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dessert&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Cardamom-Pear pie&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;who&#39;</span><span class="p">:</span> <span class="s1">&#39;Joel&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;appetizer&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Humboldt Fog cheese&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;who&#39;</span><span class="p">:</span> <span class="s1">&#39;Meggie&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dessert&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Lemon bars&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;who&#39;</span><span class="p">:</span> <span class="s1">&#39;Bonnie&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;appetizer&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Mini-enchiladas&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;who&#39;</span><span class="p">:</span> <span class="s1">&#39;Katie&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drink&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Sangria&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;who&#39;</span><span class="p">:</span> <span class="s1">&#39;Anges&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dessert&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Chocolate-raisin cookies&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;who&#39;</span><span class="p">:</span> <span class="s1">&#39;Henry&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;dessert&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Brownies&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;who&#39;</span><span class="p">:</span> <span class="s1">&#39;Sarah&#39;</span><span class="p">}</span>
+    <span class="p">]</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">homepage</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Show homepage.&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;homepage.html&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/treats&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_treats</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Show treats people are bringing.&quot;&quot;&quot;</span>
+
+    <span class="n">treats</span> <span class="o">=</span> <span class="n">get_treats</span><span class="p">()</span>
+
+    <span class="n">most</span><span class="p">,</span> <span class="n">least</span> <span class="o">=</span> <span class="n">most_and_least_common_type</span><span class="p">(</span><span class="n">get_treats</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;treats.html&quot;</span><span class="p">,</span>
+                           <span class="n">treats</span><span class="o">=</span><span class="n">treats</span><span class="p">,</span>
+                           <span class="n">most</span><span class="o">=</span><span class="n">most</span><span class="p">,</span>
+                           <span class="n">least</span><span class="o">=</span><span class="n">least</span><span class="p">)</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/rsvp&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">rsvp</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Register for the party.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_mel</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">session</span><span class="p">[</span><span class="s1">&#39;rsvp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Yay!&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s2">&quot;Sorry, Mel. This is kind of awkward.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;DEBUG_TB_INTERCEPT_REDIRECTS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">DebugToolbarExtension</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section class="section" id="tests-py">
+<h2>tests.py</h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Tests for Balloonicorn&#39;s Flask app.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">import</span> <span class="nn">party</span>
+
+
+<span class="k">class</span> <span class="nc">PartyTests</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tests for my party site.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Code to run before every test.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">party</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
+        <span class="n">party</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">test_homepage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Can we reach the homepage?&quot;&quot;&quot;</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;having a party&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_no_rsvp_yet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Do users who haven&#39;t RSVPed see the correct view?&quot;&quot;&quot;</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Please RSVP&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_rsvp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Do RSVPed users see the correct view?&quot;&quot;&quot;</span>
+
+        <span class="n">rsvp_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s2">&quot;Jane&quot;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s2">&quot;jane@jane.com&quot;</span><span class="p">}</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/rsvp&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rsvp_info</span><span class="p">,</span>
+                                  <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Yay!&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Party Details&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Please RSVP&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_rsvp_mel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Can we keep Mel out?&quot;&quot;&quot;</span>
+
+        <span class="n">rsvp_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s2">&quot;Mel&quot;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s2">&quot;mel@ubermelon.com&quot;</span><span class="p">}</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/rsvp&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rsvp_info</span><span class="p">,</span>
+                                  <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Yay!&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Party Details&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Please RSVP&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2022 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="../_static/main.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+Time to get meta, and test a testing exercise. :)
+
+party.py
+--------
+
+First, import our server and the doctest module, so we can run doctests:
+
+    >>> import party
+    >>> import doctest
+
+Now, let's just run the doctests and make sure the code we ship behaves as it
+should. Students haven't added any tests yet, so there should be no attempts
+and no failures to report:
+
+    >>> doctest.testmod(party).attempted
+    0
+    >>> doctest.testmod(party).failed
+    0
+
+Hooray!
+
+tests.py
+--------
+
+Now, import the file containing unittest code for Further Study, as well as
+the unittest module:
+
+    >>> from tests import PartyTests
+    >>> import unittest
+
+To run our class' test suite, we'll have to load it and use a class from
+unittest to actually do the driving. All we should see for now is a bunch of
+FIXMEs, because Balloonicorn went off dancing instead of finishing her tests.
+
+    >>> suite = unittest.TestLoader().loadTestsFromTestCase(PartyTests)
+    >>> result = unittest.TextTestRunner().run(suite)
+    FIXME
+    FIXME
+    FIXME
+

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Further Study | Devmountain Foundations</title>
+
+      <link
+        href="_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+
+      <script src="_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Further Study</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Further Study</a><ul>
+<li><a class="reference internal" href="#unit-tests">Unit Tests</a><ul>
+<li><a class="reference internal" href="#setup">setUp</a></li>
+<li><a class="reference internal" href="#test-homepage">test_homepage</a></li>
+<li><a class="reference internal" href="#test-no-rsvp-yet">test_no_rsvp_yet</a></li>
+<li><a class="reference internal" href="#test-rsvp">test_rsvp</a></li>
+<li><a class="reference internal" href="#test-rsvp-mel">test_rsvp_mel</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#improving-the-mel-check">Improving the Mel Check</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="further-study">
+<h1>Further Study</h1>
+<section class="section" id="unit-tests">
+<h2>Unit Tests</h2>
+<p>Let’s dig deeper into testing by looking at Flask-specific tests.</p>
+<p>Take a look at the <cite>tests.py</cite> file provided. It’s a skeleton for tests for the
+site.</p>
+<section class="section" id="setup">
+<h3>setUp</h3>
+<p>If you have a method called <cite>setUp</cite>, this method is called before each
+test. You can use this to put in useful things you’ll always need.</p>
+<p>As a small convenience, Balloonicorn has instantiated the Flask test client here
+and set it as an instance attribute, <cite>client</cite>, of the test class. Balloonicorn
+also set the <cite>TESTING</cite> configuration variable for Flask, which causes any
+Flask errors to be printed to the same console as the tests, helping debug errors
+that happen during tests.</p>
+</section>
+<section class="section" id="test-homepage">
+<h3>test_homepage</h3>
+<p>Balloonicorn has written one complete test—does the homepage load?</p>
+<p>This test is very simple but proves a lot of things:</p>
+<ul class="simple">
+<li><p>Flask libraries are loaded and working.</p></li>
+<li><p>The route for the homepage is correct.</p></li>
+<li><p>The template for the homepage contains the phrase “I’m having a party”.</p></li>
+</ul>
+<p>This test would be considered an <em>integration test</em>, since it’s testing several
+components at once. This a very common kind of testing strategy for things like
+Flask sites.</p>
+<p>You can run these tests by running the <cite>tests.py</cite> module, since the code at the
+bottom runs the tests automatically:</p>
+<pre class="console literal-block">(env) $ <span class="cmd">python3</span> <span class="cmd">tests.py</span>
+.FIXME
+.FIXME
+.FIXME
+.
+----------------------------------------------------------------------
+Ran 4 tests in 0.022s
+
+OK</pre>
+<p>The “FIXME” lines are just printed reminders Balloonicorn put into the file
+so she’d remember to actually write those tests. Once you write real tests
+for these, you should remove those lines.</p>
+</section>
+<section class="section" id="test-no-rsvp-yet">
+<h3>test_no_rsvp_yet</h3>
+<p>Balloonicorn started writing a test to make sure when you haven’t RSVP’d, you
+should see the RSVP form and not see the party details. Unfortunately, she got
+distracted by an impromptu dance party and hasn’t finished the test.</p>
+<div class="literal-block-wrapper docutils container" id="testing-py-fs-testnorsvp">
+<div class="code-block-caption"><span class="caption-text">tests.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">test_no_rsvp_yet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Do users who haven&#39;t RSVPed see the correct view?&quot;&quot;&quot;</span>
+
+        <span class="c1"># FIXME: Add a test to show we haven&#39;t RSVP&#39;d yet</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FIXME&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Add code to:</p>
+<ul class="simple">
+<li><p>test that you see the RSVP form</p></li>
+<li><p>test that you <em>don’t</em> see the party details</p></li>
+</ul>
+<p>You can get a sense of how to do this using <cite>assertIn</cite> by looking at the
+<cite>test_homepage</cite> function.</p>
+</section>
+<section class="section" id="test-rsvp">
+<h3>test_rsvp</h3>
+<p>There’s another unfinished test, which tests that you can successfully RSVP.</p>
+<div class="literal-block-wrapper docutils container" id="testing-py-fs-testrsvp">
+<div class="code-block-caption"><span class="caption-text">tests.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">test_rsvp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Do RSVPed users see the correct view?&quot;&quot;&quot;</span>
+
+        <span class="n">rsvp_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s2">&quot;Jane&quot;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s2">&quot;jane@jane.com&quot;</span><span class="p">}</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/rsvp&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rsvp_info</span><span class="p">,</span>
+                                  <span class="n">follow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># FIXME: check that once we log in we see party details--but not the form!</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FIXME&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>So far, it sends a POST request, passing along form data. Since the route
+returns a redirect HTTP response and Balloonicorn wants to test the page you
+eventually end up at, she set <cite>follow_redirects</cite> to <cite>True</cite>. Otherwise,
+the <cite>self.client.post</cite> call would give back the redirection result itself,
+not the page you’re ultimately taken to.</p>
+<p>Add code to:</p>
+<ul class="simple">
+<li><p>test that you <em>don’t</em> see the RSVP form</p></li>
+<li><p>test that you do see the party details</p></li>
+</ul>
+</section>
+<section class="section" id="test-rsvp-mel">
+<h3>test_rsvp_mel</h3>
+<p>There’s an unfinished stub for testing whether the site keeps Mel from logging
+in.</p>
+<div class="literal-block-wrapper docutils container" id="testing-py-fs-testrsvpmel">
+<div class="code-block-caption"><span class="caption-text">tests.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">test_rsvp_mel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Can we keep Mel out?&quot;&quot;&quot;</span>
+
+        <span class="c1"># FIXME: write a test that mel can&#39;t invite himself</span>
+        <span class="k">pass</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FIXME&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>You can base this on the <cite>test_rsvp</cite> method.</p>
+</section>
+</section>
+<section class="section" id="improving-the-mel-check">
+<h2>Improving the Mel Check</h2>
+<p>The test in <cite>party.py</cite> for <cite>is_mel</cite> is pretty bad: if Mel doesn’t use his last
+name, or doesn’t capitalize it, or writes his email address in uppercase, it
+won’t recognize him.</p>
+<p>One of the great things about tests is that they give you freedom to make changes
+to code and be reassured that existing code still works. So, we’ll be able to
+improve this function with confidence.</p>
+<p>Edit the code for <cite>is_mel</cite> to make it smarter. You can do this in any way you
+want. For instance, you could change the case of what is entered or use slicing
+or other string methods.</p>
+<p>Re-run your doctests to make sure things work. This ensures there are no
+<em>regressions</em>, which are situations where code that used to work no longer does.</p>
+<p>Once you’ve proven that the existing tests work, add new tests that test for the
+new, more flexible check.</p>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2022 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="_static/main.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+  </body>
+</html>

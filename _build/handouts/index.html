@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Testing Balloonicorn’s Party | Devmountain Foundations</title>
+
+      <link
+        href="_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+
+      <script src="_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Testing Balloonicorn’s Party</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Testing Balloonicorn’s Party</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#the-site">The Site</a><ul>
+<li><a class="reference internal" href="#treats">Treats</a></li>
+<li><a class="reference internal" href="#no-mel">No Mel!</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#doctests">Doctests</a><ul>
+<li><a class="reference internal" href="#keeping-mel-out">Keeping Mel Out</a></li>
+<li><a class="reference internal" href="#most-and-least-common-foods">Most and Least Common Foods</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#congratulations">Congratulations!</a></li>
+<li><a class="reference internal" href="#further-study">Further Study</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="testing-balloonicorn-s-party">
+<h1>Testing Balloonicorn’s Party</h1>
+<section class="section" id="introduction">
+<h2>Introduction</h2>
+<p>Balloonicorn is a fictional character that we’ll be referring to throughout
+this exercise. If you’re interested, learn more about Balloonicorn
+<a class="reference external" href="https://wiki.teamfortress.com/wiki/Balloonicorn" target="_blank">here</a>!</p>
+<p>Balloonicorn has been having so much fun learning Flask and testing that she’s
+throwing a party to celebrate—and she’s built a Flask site for the event.</p>
+<p>The site works and is reasonably complete, but she’d like to add some tests to
+it.</p>
+<section class="section" id="setup">
+<h3>Setup</h3>
+<p>Download the materials for this exercise <a class="reference external" href="https://ed.devmountain.com/materials/exercises/testing-py.zip">here</a>.</p>
+</section>
+<section class="section" id="the-site">
+<h3>The Site</h3>
+<p>To run the site, first make a virtual environment:</p>
+<pre class="console literal-block">$ <span class="cmd">virtualenv env</span></pre>
+<p>Activate your environment:</p>
+<pre class="console literal-block">$ <span class="cmd">source env/bin/activate</span></pre>
+<p>And install the dependencies in <cite>requirements.txt</cite>.</p>
+<pre class="console literal-block">(env) $ <span class="cmd">pip3 install -r requirements.txt</span>
+<span class="tan">...</span></pre>
+<p>Next, start up the Flask server, <cite>party.py</cite>.</p>
+<pre class="console literal-block">$ <span class="cmd">python3 party.py</span>
+* Running on <a class="reference external" href="http://127.0.0.1:5000/" target="_blank">http://127.0.0.1:5000/</a> (Press CTRL+C to quit)
+* Restarting with stat</pre>
+<p>If you visit the site at <a class="reference external" href="http://127.0.0.1:5000/" target="_blank">http://127.0.0.1:5000/</a> you should see the homepage.</p>
+<img alt="_images/homepage.png" src="_images/homepage.png" style="width: 70%;" />
+<p>You can RSVP for the site in the box at the top right.</p>
+<p>Once you’ve done so, the site redirects you back to the homepage and sends
+a Flask flash message of “Yay!”.</p>
+<p>Now, instead of the invitation form, you’ll see details about the party.</p>
+<p>Note that the RSVP is stored in the session—so even if you just visit the
+homepage yourself, you won’t need to RSVP again and will be shown the
+view with the details of the party.</p>
+<section class="section" id="treats">
+<h4>Treats</h4>
+<p>Click on the link that lists the treats:</p>
+<img alt="_images/treats.png" src="_images/treats.png" style="width: 100%;" />
+<p>This lists the treats being brought to the party. At the bottom, it tells you
+which type of treat is most popular and which is least popular (asking you to
+bring some of that type).</p>
+</section>
+<section class="section" id="no-mel">
+<h4>No Mel!</h4>
+<p>This part is a little awkward.</p>
+<p>Last year, Mel, a CEO of a tech company, came to Balloonicorn’s party and
+drank too much of Agnes’
+delicious Sangria (she brings it every year). He got a bit drunk and stood
+on the picnic table yelling “Developers! Developers! Developers!” and pumping
+his fist in the air.</p>
+<p>Balloonicorn thinks Mel is a tool, and she’d rather he not come to
+her party. So she’s written logic into Flask to not show Mel the party details.</p>
+<p>To see this feature, you’ll need to get rid of the session information
+for your login. You can do this in any number of ways:</p>
+<ul class="simple">
+<li><p>quitting your browser entirely and restarting (since the cookie used for
+Flask’s session is a lifetime-of-browser cookie)</p></li>
+<li><p>opening a new Incognito window in Chrome, since that will start a new window
+without any cookies</p></li>
+<li><p>going into Chrome’s preferences and clearing your cookies</p></li>
+</ul>
+<p>Now, in the homepage, enter Mel’s information:</p>
+<dl class="field-list simple">
+<dt class="field-odd">name</dt>
+<dd class="field-odd"><p>Mel Melitpolski</p>
+</dd>
+<dt class="field-even">email</dt>
+<dd class="field-even"><p><a class="reference external" href="mailto:mel&#37;&#52;&#48;ubermelon&#46;com">mel<span>&#64;</span>ubermelon<span>&#46;</span>com</a></p>
+</dd>
+</dl>
+<p>You should get a flash message letting Mel know he can’t come, and won’t see
+the party details.</p>
+</section>
+</section>
+<section class="section" id="doctests">
+<h3>Doctests</h3>
+<section class="section" id="keeping-mel-out">
+<h4>Keeping Mel Out</h4>
+<p>Take a look at <cite>party.py</cite>.</p>
+<p>There’s a function, <cite>is_mel</cite>, that checks if the name and email are Mel’s
+and returns <cite>True</cite> if so and <cite>False</cite> if not:</p>
+<div class="literal-block-wrapper docutils container" id="testing-py-is-mel">
+<div class="code-block-caption"><span class="caption-text">party.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_mel</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Is this user Mel?&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Mel Melitpolski&quot;</span> <span class="ow">or</span> <span class="n">email</span> <span class="o">==</span> <span class="s2">&quot;mel@ubermelon.com&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>Add a doctest to this to check if it works. You shouldn’t need to edit the
+function’s body; just add doctests to the docstring. To do this, you can go into
+a Python console, import the <cite>party</cite> module, and test it by hand.</p>
+<p>For example:</p>
+<pre class="console literal-block">$ python3
+&gt;&gt;&gt; <span class="cmd">from party import is_mel</span>
+&gt;&gt;&gt; <span class="cmd">is_mel('Mel Melitpolski', 'mel&#64;ubermelon.com')</span>
+True
+&gt;&gt;&gt; <span class="cmd">is_mel('Judith Butler', 'judith&#64;awesome.com')</span>
+False</pre>
+<p>Then, you can copy and paste that interactive session (leave off the “import”
+line) and put it into the docstring for <cite>is_mel</cite>.</p>
+<p>Once you’ve done that, you can test your work:</p>
+<pre class="console literal-block">$ <span class="cmd">python3 -m doctest -v party.py</span>
+Trying:
+    is_mel(&quot;Judith Butler&quot;, &quot;<a class="reference external" href="mailto:judith&#37;&#52;&#48;awesome&#46;com">judith<span>&#64;</span>awesome<span>&#46;</span>com</a>&quot;)
+Expecting:
+    False
+ok
+Trying:
+    is_mel(&quot;Mel Melitpolski&quot;, &quot;<a class="reference external" href="mailto:mel&#37;&#52;&#48;ubermelon&#46;com">mel<span>&#64;</span>ubermelon<span>&#46;</span>com</a>&quot;)
+Expecting:
+    True
+ok
+6 items had no tests:
+    party
+    party.get_treats
+    party.homepage
+    party.most_and_least_common_type
+    party.rsvp
+    party.show_treats
+1 items passed all tests:
+   2 tests in party.is_mel
+2 tests in 7 items.
+2 passed and 0 failed.
+Test passed.</pre>
+<p>The <cite>-v</cite> option means, “show me verbose results of the test.” Without that,
+you get no output for successful tests, only for failing tests. We recommend
+you run this in verbose mode, otherwise it’s too easy to miss the fact that
+a test didn’t run—plus, this way, you get helpful information about
+functions without tests.</p>
+<p>You might be wondering how to figure out <em>what</em> to test. These tests are a good
+start. In this case, our possible outputs for the <cite>is_mel</cite> function are <cite>True</cite>
+and <cite>False</cite>, so we chose two test inputs that would result in each of those
+outputs. But there are other things you’ll start to consider as you progress in
+your mastery of writing tests.</p>
+<p>The <cite>is_mel</cite> function is written to kick Mel out either by name or by email—so
+add another test or two to your doctest to make sure it finds Mel if this
+matches only his name <em>or</em> his email.</p>
+</section>
+<section class="section" id="most-and-least-common-foods">
+<h4>Most and Least Common Foods</h4>
+<p>There’s a function called <cite>most_and_least_common_type</cite> in <cite>party.py</cite>:</p>
+<div class="literal-block-wrapper docutils container" id="testing-py-mostleast">
+<div class="code-block-caption"><span class="caption-text">party.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">most_and_least_common_type</span><span class="p">(</span><span class="n">treats</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Given list of treats, return most and least common treat types.</span>
+
+<span class="sd">    Return most and least common treat types in tuple of format (most, least).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">types</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Count number of each type</span>
+    <span class="k">for</span> <span class="n">treat</span> <span class="ow">in</span> <span class="n">treats</span><span class="p">:</span>
+        <span class="n">types</span><span class="p">[</span><span class="n">treat</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">treat</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">most_count</span> <span class="o">=</span> <span class="n">most_type</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">least_count</span> <span class="o">=</span> <span class="n">least_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Find most, least common</span>
+    <span class="k">for</span> <span class="n">treat_type</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">most_count</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="n">most_count</span><span class="p">:</span>
+            <span class="n">most_count</span> <span class="o">=</span> <span class="n">count</span>
+            <span class="n">most_type</span> <span class="o">=</span> <span class="n">treat_type</span>
+
+        <span class="k">if</span> <span class="n">least_count</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">least_count</span><span class="p">:</span>
+            <span class="n">least_count</span> <span class="o">=</span> <span class="n">count</span>
+            <span class="n">least_type</span> <span class="o">=</span> <span class="n">treat_type</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">most_type</span><span class="p">,</span> <span class="n">least_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This takes a list of dictionaries, where each dictionary has at least one key,
+<cite>type</cite>, and returns a tuple of the most-common-type and the least-common-type.</p>
+<p>For example:</p>
+<pre class="console literal-block">&gt;&gt;&gt; <span class="cmd">treats = [</span>
+...     <span class="cmd">{'type': 'dessert'},</span>
+...     <span class="cmd">{'type': 'dessert'},</span>
+...     <span class="cmd">{'type': 'appetizer'},</span>
+...     <span class="cmd">{'type': 'dessert'},</span>
+...     <span class="cmd">{'type': 'appetizer'},</span>
+...     <span class="cmd">{'type': 'drink'},</span>
+... <span class="cmd">]</span>
+
+&gt;&gt;&gt; <span class="cmd">most_and_least_common_type(treats)</span>
+('dessert', 'drink')</pre>
+<p>This returns <code class="docutils literal notranslate"><span class="pre">('dessert',</span> <span class="pre">'drink')</span></code> because those are the most and
+least common type in that passed-in list of treats. Note that in the case of a
+tie it will return the first one it found.</p>
+<p>Write a docstring to test this function. (Again, <strong>don’t alter
+the body of the function</strong>; just the docstring.)</p>
+<p><strong>You can study this function’s code to see how it works if you’d like, but you
+don’t need to do so. Your goal here is to write a test to verify that it works,
+and there are times when you’ll do that just by knowing what the function
+should give you back, not by having to understand 100% of it.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">“Write” Your Tests in The Console</p>
+<div class="admonition-body docutils container">
+<p>It’s tempting to just try to write the doctest in your editor directly—but
+it’s better to “write” the test by trying out the function in the
+Python console and then pasting it in, like you did for the <cite>is_mel</cite> function.</p>
+</div>
+</div>
+<p>Some things to think about:</p>
+<ul class="simple">
+<li><p>It’s probably not a good idea for your function to use the real list of
+of treats in <cite>get_treats</cite>. Those may change, but you don’t want to have
+to keep changing your test when they do. Better to make a small, simple
+list, like the one above, and use that to test it.</p></li>
+<li><p>Think about edge cases to test:</p>
+<ul>
+<li><p>What if there’s only one type of food? Does it show for both least and most?</p></li>
+<li><p>What is there is a tie for the most common food?</p></li>
+<li><p>What if an empty list is given?</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section class="section" id="congratulations">
+<h3>Congratulations!</h3>
+<p><strong>You’ve learned a very useful new coding skill- testing!</strong></p>
+</section>
+<section class="section" id="further-study">
+<h3>Further Study</h3>
+<p>Then, you may want to look at our <a class="reference external" href="further-study.html">Further Study</a>.</p>
+</section>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2022 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="_static/main.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+  </body>
+</html>
